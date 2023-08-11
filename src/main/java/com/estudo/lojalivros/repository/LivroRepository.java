@@ -6,4 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LivroRepository extends JpaRepository<LivroEntity, Long> {
+
+    LivroEntity findByCodigo(Long codigoLivro);
+
+    LivroEntity findByNome(String nomeLivro);
 }

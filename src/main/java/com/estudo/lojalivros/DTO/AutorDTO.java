@@ -1,6 +1,5 @@
 package com.estudo.lojalivros.DTO;
 
-import com.estudo.lojalivros.entity.AutorEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

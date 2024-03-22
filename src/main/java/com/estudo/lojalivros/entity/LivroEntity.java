@@ -35,6 +35,7 @@ public class LivroEntity {
 
     public static LivroEntity convertDtoToEntity(LivroDTO livroDto, AutorEntity autorEntity){
         LivroEntity livroEntity = new LivroEntity();
+
         livroEntity.setNome(livroDto.nome());
         livroEntity.setNomePublicado(livroDto.nomePublicado());
         livroEntity.setPaginas(livroDto.paginas());
@@ -45,6 +46,7 @@ public class LivroEntity {
     }
 
     public void updateLivro(LivroDTO livroDto, AutorEntity autorEntity) {
+        this.nome = livroDto.nome();
         this.nomePublicado = livroDto.nomePublicado();
         this.paginas = livroDto.paginas();
         this.capitulos = livroDto.capitulos();

@@ -1,10 +1,8 @@
 package com.estudo.lojalivros.controller;
 
 import com.estudo.lojalivros.DTO.AutorDTO;
-import com.estudo.lojalivros.DTO.LivroDTO;
 import com.estudo.lojalivros.model.ResponseResult;
 import com.estudo.lojalivros.service.AutorService;
-import com.estudo.lojalivros.service.LivroService;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

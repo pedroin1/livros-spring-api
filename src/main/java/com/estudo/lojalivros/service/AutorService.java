@@ -2,13 +2,11 @@ package com.estudo.lojalivros.service;
 
 import com.estudo.lojalivros.DTO.AutorDTO;
 import com.estudo.lojalivros.entity.AutorEntity;
-import com.estudo.lojalivros.entity.LivroEntity;
 import com.estudo.lojalivros.model.AutorVo;
 import com.estudo.lojalivros.model.ResponseResult;
 import com.estudo.lojalivros.repository.AutorRepository;
 import com.estudo.lojalivros.validation.ValidateFields;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -61,7 +59,7 @@ public class AutorService {
         validation.existAutorByCodigo(codigoAutor);
         repository.deleteById(codigoAutor);
 
-        responseResult.success("Autor de codigo '" + codigoAutor + "' foi removido com sucesso.");
+        responseResult.success("Autor de codigo '" + codigoAutor + "' foi removido com sucesso!");
         return responseResult;
     }
 

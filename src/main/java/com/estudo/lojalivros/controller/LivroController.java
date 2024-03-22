@@ -37,8 +37,8 @@ public class LivroController {
 
     @DeleteMapping(value = "/remover")
     public @ResponseBody ResponseEntity<ResponseResult> updateLivro(@RequestBody ObjectNode bodyParam){
-        String nomeLivro = bodyParam.get("nomeLivro").asText();
-        ResponseResult result = service.deleteLivro(nomeLivro);
+        Long codigoLivro = bodyParam.get("codigoLivro").asLong();
+        ResponseResult result = service.deleteLivro(codigoLivro);
         return ResponseEntity.ok(result);
     }
 }

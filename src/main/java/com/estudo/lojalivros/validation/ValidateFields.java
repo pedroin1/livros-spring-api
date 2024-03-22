@@ -17,38 +17,31 @@ public class ValidateFields {
     public void existLivroByNome(String nomeLivro){
         boolean existLivro = repository.existsByNome(nomeLivro);
         if(existLivro){
-            throw new RuntimeException("Este livro ja existe!");
+            throw new RuntimeException("Já existe livro com este nome!");
         }
     }
 
-    public void notExistLivroByNome(String nomeLivro){
-        boolean existLivro = repository.existsByNome(nomeLivro);
+    public void existLivroByCodigo(Long codigoLivro){
+        boolean existLivro = repository.existsById(codigoLivro);
         if(!existLivro){
-            throw new RuntimeException("Este livro não existe!");
+            throw new RuntimeException("Não existe livro com este código!");
         }
     }
 
     public void existAutorByCodigo(Long codigoAutor) {
         boolean existAutor = autorRepository.existsByCodigo(codigoAutor);
         if(!existAutor){
-            throw new RuntimeException("Não existe autor para o codigo fornecido!");
-        }
-    }
-
-    public void existAutorByNome(String nomeAutor){
-        boolean existAutor = autorRepository.existsByNome(nomeAutor);
-        if(!existAutor){
-            throw new RuntimeException("Não existe autor com este nome!");
+            throw new RuntimeException("Não existe autor com este código!");
         }
     }
 
     public void validateCreateNewLivro(LivroDTO livroDto){
         existLivroByNome(livroDto.nome());
-        existAutorByNome(livroDto.nomeAutor());
+        existAutorByCodigo(livroDto.codigoAutor());
     }
 
     public void validateUpdateLivro(LivroDTO livroDto){
-        notExistLivroByNome(livroDto.nome());
-        existAutorByNome(livroDto.nomeAutor());
+        existLivroByCodigo(livroDto.codigo());
+        existAutorByCodigo(livroDto.codigoAutor());
     }
 }

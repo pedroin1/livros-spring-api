@@ -26,10 +26,10 @@ public class LivroService {
     public ResponseResult listAllLivros() {
         ResponseResult responseResult = new ResponseResult();
 
-        List<LivroEntity> livrosEntity = repository.findAll();
-        List<LivroVo> livrosDTO = convertEntityListToVo(livrosEntity);
+        List<LivroEntity> livroEntityList = repository.findAll();
+        List<LivroVo> livroDtoList = convertEntityListToVo(livroEntityList);
 
-        responseResult.success(livrosDTO);
+        responseResult.success(livroDtoList);
         return responseResult;
     }
 
@@ -38,10 +38,10 @@ public class LivroService {
 
         validation.validateCreateNewLivro(livroDto);
 
-        AutorEntity autorEntity = autorRepository.findByNome(livroDto.nomeAutor());
-        LivroEntity novoLivro = repository.save(LivroEntity.convertDtoToEntity(livroDto, autorEntity));
+        AutorEntity autorEntity = autorRepository.findByCodigo(livroDto.codigoAutor());
+        LivroEntity newLivroEntity = repository.save(LivroEntity.convertDtoToEntity(livroDto, autorEntity));
 
-        responseResult.success(convertEntityToVo(novoLivro));
+        responseResult.success(convertEntityToVo(newLivroEntity));
         return responseResult;
     }
 
@@ -50,23 +50,22 @@ public class LivroService {
 
         validation.validateUpdateLivro(livroDto);
 
-        AutorEntity autorEntity = autorRepository.findByNome(livroDto.nomeAutor());
-        LivroEntity livroEntityToSave = repository.findByNome(livroDto.nome());
-        livroEntityToSave.updateLivro(livroDto, autorEntity);
+        AutorEntity autorEntity = autorRepository.findByCodigo(livroDto.codigoAutor());
+        LivroEntity livroEntity = repository.findByCodigo(livroDto.codigo());
+        livroEntity.updateLivro(livroDto, autorEntity);
 
-        LivroEntity savedLivro = repository.save(livroEntityToSave);
-        responseResult.success(convertEntityToVo(savedLivro));
+        LivroEntity updatedLivroEntity = repository.save(livroEntity);
+        responseResult.success(convertEntityToVo(updatedLivroEntity));
         return responseResult;
     }
 
-    public ResponseResult deleteLivro(String nomeLivro) {
+    public ResponseResult deleteLivro(Long codigoLivro) {
         ResponseResult responseResult = new ResponseResult();
 
-        validation.notExistLivroByNome(nomeLivro);
-        LivroEntity livroEntity = repository.findByNome(nomeLivro);
-        repository.delete(livroEntity);
+        validation.existLivroByCodigo(codigoLivro);
+        repository.deleteById(codigoLivro);
 
-        responseResult.success("Livro deletado com sucesso");
+        responseResult.success("Livro de codigo '" + codigoLivro + "' foi removido com sucesso!");
         return responseResult;
     }
 

@@ -1,23 +1,17 @@
 package com.estudo.lojalivros.DTO;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.validation.constraints.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
-public class AutorDTO {
+public record AutorDTO(
 
-    @NotNull(message = "{notnull.message}")
-    @NotEmpty(message = "{notempty.message}")
-    private String nome;
+        @NotBlank(message = "O nome do autor é obrigatório.")
+        String nome,
 
-    @Positive(message = "{positive.message}")
-    private int idade;
+        @Min(value = 1, message = "A idade deve ser um número acima de 0")
+        @Max(value = 100, message = "A idade do autor é inválida.")
+        int idade,
 
-    @Email(message = "{email.message}")
-    private String email;
+        @Email(message = "Email do autor esta com formato inválido")
+        String email
+) {
 }

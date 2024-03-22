@@ -1,33 +1,28 @@
 package com.estudo.lojalivros.DTO;
 
-import lombok.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
-@NoArgsConstructor
-public class LivroDTO {
+public record LivroDTO(
 
-    private Long id;
+        Long id,
 
-    @NotNull(message = "{notnull.message}")
-    @NotEmpty(message = "{notempty.message}")
-    private String nome;
+        @NotBlank(message = "O nome do livro é obrigatório")
+        String nome,
 
-    @NotNull(message = "{notnull.message}")
-    @NotEmpty(message = "{notempty.message}")
-    private String nomePublicado;
+        @NotBlank(message = "O nome do livro é obrigatório")
+        String nomePublicado,
 
-    @NotNull(message = "{notnull.message}")
-    @Min(1)
-    private int paginas;
+        @NotNull(message = "A quantidade de paginas do livro é obrigatória")
+        @Min(value = 1, message = "A quantidade de paginas do livro deve ser maior que 1")
+        int paginas,
 
-    @NotNull(message = "{notnull.message}")
-    @Min(1)
-    private int capitulos;
+        @NotNull(message = "A quantidade de capitulos do livro é obrigatório")
+        @Min(value = 1, message = "A quantidade de capitulos do livro deve ser maior que 1")
+        int capitulos,
 
-    @NotNull(message = "{notnull.message}")
-    private AutorDTO autor;
+        @NotBlank(message = "O nome do autor é obrigatório")
+        String nomeAutor
+) {
 }

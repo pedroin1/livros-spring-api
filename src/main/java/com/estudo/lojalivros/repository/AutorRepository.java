@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface AutorRepository extends JpaRepository<AutorEntity, Long> {
 
     AutorEntity findByNome(String nomeAutor);
+
+    boolean existsByNome(String nomeAutor);
 }

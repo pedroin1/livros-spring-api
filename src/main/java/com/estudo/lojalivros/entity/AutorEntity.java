@@ -21,15 +21,11 @@ public class AutorEntity {
     private String nome;
 
     @Column(name = "idade",nullable = false)
-    private Integer idade;
+    private int idade;
 
     @Column(name = "email")
     private String email;
 
     @OneToMany(mappedBy = "autor")
-    Set<LivroEntity> livros;
-
-    public void setId(Long id) {
-
-    }
+    private Set<LivroEntity> livros;
 }

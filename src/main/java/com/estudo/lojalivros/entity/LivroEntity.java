@@ -1,5 +1,6 @@
 package com.estudo.lojalivros.entity;
 
+import com.estudo.lojalivros.DTO.LivroDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,4 +32,22 @@ public class LivroEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_autor", nullable=false)
     private AutorEntity autor;
+
+    public static LivroEntity convertDTOtoEntity(LivroDTO livroDto, AutorEntity autorEntity){
+        LivroEntity livroEntity = new LivroEntity();
+        livroEntity.setNome(livroDto.nome());
+        livroEntity.setNomePublicado(livroDto.nomePublicado());
+        livroEntity.setPaginas(livroDto.paginas());
+        livroEntity.setCapitulos(livroDto.capitulos());
+        livroEntity.setAutor(autorEntity);
+
+        return livroEntity;
+    }
+
+    public void updateLivro(LivroDTO livroDto, AutorEntity autorEntity) {
+        this.nomePublicado = livroDto.nomePublicado();
+        this.paginas = livroDto.paginas();
+        this.capitulos = livroDto.capitulos();
+        this.autor = autorEntity;
+    }
 }

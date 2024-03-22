@@ -7,6 +7,7 @@ import com.estudo.lojalivros.model.LivroVo;
 import com.estudo.lojalivros.model.ResponseResult;
 import com.estudo.lojalivros.repository.AutorRepository;
 import com.estudo.lojalivros.repository.LivroRepository;
+import com.estudo.lojalivros.validation.LivroValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,65 +17,65 @@ import java.util.List;
 
 @Service
 public class LivroService {
-
     @Autowired
-    private LivroRepository livroRepository;
-
+    private LivroRepository repository;
     @Autowired
     private AutorRepository autorRepository;
+    @Autowired
+    private LivroValidation validation;
 
-    public ResponseResult listarLivros() {
+    public ResponseResult listAllLivros() {
         ResponseResult responseResult = new ResponseResult();
 
-        List<LivroEntity> livrosEntity = livroRepository.findAll();
+        List<LivroEntity> livrosEntity = repository.findAll();
         List<LivroVo> livrosDTO = convertEntityListToVo(livrosEntity);
 
         responseResult.success(livrosDTO);
         return responseResult;
     }
 
-    public ResponseResult criarLivro(LivroDTO livroDto){
+    public ResponseResult createLivro(LivroDTO livroDto) {
         ResponseResult responseResult = new ResponseResult();
 
-        validNovoLivro(livroDto);
-        LivroEntity novoLivro =  livroRepository.save(convertDTOtoEntity(livroDto));
+        validation.validateCreateNewLivro(livroDto);
+
+        AutorEntity autorEntity = autorRepository.findByNome(livroDto.nomeAutor());
+        LivroEntity novoLivro = repository.save(LivroEntity.convertDTOtoEntity(livroDto, autorEntity));
 
         responseResult.success(convertEntityToVo(novoLivro));
         return responseResult;
     }
 
-    private void validNovoLivro(LivroDTO livroDto){
-        LivroEntity novoLivro = livroRepository.findByNome(livroDto.getNome());
-        if(novoLivro != null){
-            throw new RuntimeException("Este Livro ja existe!");
-        }
+    public ResponseResult updateLivro(LivroDTO livroDto) {
+        ResponseResult responseResult = new ResponseResult();
+
+        validation.validateUpdateLivro(livroDto);
+
+        AutorEntity autorEntity = autorRepository.findByNome(livroDto.nomeAutor());
+        LivroEntity livroEntityToSave = repository.findByNome(livroDto.nome());
+        livroEntityToSave.updateLivro(livroDto, autorEntity);
+
+        LivroEntity savedLivro = repository.save(livroEntityToSave);
+        responseResult.success(convertEntityToVo(savedLivro));
+        return responseResult;
     }
 
-    private LivroEntity convertDTOtoEntity(LivroDTO livroDto){
-        AutorEntity autorEntity = autorRepository.findByNome(livroDto.getAutor().getNome());
-        LivroEntity livroEntity = new LivroEntity();
-        livroEntity.setNome(livroDto.getNome());
-        livroEntity.setNomePublicado(livroDto.getNomePublicado());
-        livroEntity.setPaginas(livroDto.getPaginas());
-        livroEntity.setCapitulos(livroDto.getCapitulos());
-        livroEntity.setAutor(autorEntity);
+    public ResponseResult deleteLivro(String nomeLivro) {
+        ResponseResult responseResult = new ResponseResult();
 
-        return livroEntity;
+        validation.notExistLivroByNome(nomeLivro);
+        LivroEntity livroEntity = repository.findByNome(nomeLivro);
+        repository.delete(livroEntity);
+
+        responseResult.success("Livro deletado com sucesso");
+        return responseResult;
     }
 
-    private LivroVo convertEntityToVo(LivroEntity livroEntity){
+    private LivroVo convertEntityToVo(LivroEntity livroEntity) {
         return new LivroVo(livroEntity);
     }
 
-    private List<LivroVo> convertEntityListToVo(List<LivroEntity> livrosEntity){
-        List<LivroVo> livrosVo = new ArrayList<>();
-
-        for(LivroEntity livroEntity: livrosEntity){
-            LivroVo livroVo = convertEntityToVo(livroEntity);
-            livrosVo.add(livroVo);
-        }
-
-        return livrosVo;
+    private List<LivroVo> convertEntityListToVo(List<LivroEntity> livrosEntity) {
+        return livrosEntity.stream().map(this::convertEntityToVo).toList();
     }
-
 }

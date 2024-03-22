@@ -1,6 +1,5 @@
 package com.estudo.lojalivros.model;
 
-import com.estudo.lojalivros.DTO.AutorDTO;
 import com.estudo.lojalivros.entity.AutorEntity;
 import com.estudo.lojalivros.entity.LivroEntity;
 import lombok.Getter;

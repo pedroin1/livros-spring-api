@@ -7,7 +7,7 @@ import com.estudo.lojalivros.model.LivroVo;
 import com.estudo.lojalivros.model.ResponseResult;
 import com.estudo.lojalivros.repository.AutorRepository;
 import com.estudo.lojalivros.repository.LivroRepository;
-import com.estudo.lojalivros.validation.LivroValidation;
+import com.estudo.lojalivros.validation.ValidateFields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class LivroService {
     @Autowired
     private AutorRepository autorRepository;
     @Autowired
-    private LivroValidation validation;
+    private ValidateFields validation;
 
     public ResponseResult listAllLivros() {
         ResponseResult responseResult = new ResponseResult();
@@ -39,7 +39,7 @@ public class LivroService {
         validation.validateCreateNewLivro(livroDto);
 
         AutorEntity autorEntity = autorRepository.findByNome(livroDto.nomeAutor());
-        LivroEntity novoLivro = repository.save(LivroEntity.convertDTOtoEntity(livroDto, autorEntity));
+        LivroEntity novoLivro = repository.save(LivroEntity.convertDtoToEntity(livroDto, autorEntity));
 
         responseResult.success(convertEntityToVo(novoLivro));
         return responseResult;

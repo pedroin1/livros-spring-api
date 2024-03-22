@@ -1,5 +1,6 @@
 package com.estudo.lojalivros.entity;
 
+import com.estudo.lojalivros.DTO.AutorDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,4 +29,18 @@ public class AutorEntity {
 
     @OneToMany(mappedBy = "autor")
     private Set<LivroEntity> livros;
+
+    public static AutorEntity convertDtoToEntity(AutorDTO autorDTO) {
+        AutorEntity autorEntity = new AutorEntity();
+        autorEntity.setNome(autorDTO.nome());
+        autorEntity.setEmail(autorDTO.email());
+        autorEntity.setIdade(autorDTO.idade());
+        return autorEntity;
+    }
+
+    public void updateAutor(AutorDTO autorDTO) {
+        this.nome = autorDTO.nome();
+        this.email = autorDTO.email();
+        this.idade = autorDTO.idade();
+    }
 }

@@ -7,6 +7,9 @@ import javax.validation.constraints.NotBlank;
 
 public record AutorDTO(
 
+
+        Long codigo,
+
         @NotBlank(message = "O nome do autor é obrigatório.")
         String nome,
 

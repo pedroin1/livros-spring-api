@@ -33,7 +33,7 @@ public class LivroEntity {
     @JoinColumn(name = "id_autor", nullable=false)
     private AutorEntity autor;
 
-    public static LivroEntity convertDTOtoEntity(LivroDTO livroDto, AutorEntity autorEntity){
+    public static LivroEntity convertDtoToEntity(LivroDTO livroDto, AutorEntity autorEntity){
         LivroEntity livroEntity = new LivroEntity();
         livroEntity.setNome(livroDto.nome());
         livroEntity.setNomePublicado(livroDto.nomePublicado());

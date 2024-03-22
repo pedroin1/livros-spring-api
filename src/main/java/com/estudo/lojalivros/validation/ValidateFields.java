@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LivroValidation {
+public class ValidateFields {
 
     @Autowired
     private LivroRepository repository;
@@ -25,6 +25,13 @@ public class LivroValidation {
         boolean existLivro = repository.existsByNome(nomeLivro);
         if(!existLivro){
             throw new RuntimeException("Este livro não existe!");
+        }
+    }
+
+    public void existAutorByCodigo(Long codigoAutor) {
+        boolean existAutor = autorRepository.existsByCodigo(codigoAutor);
+        if(!existAutor){
+            throw new RuntimeException("Não existe autor para o codigo fornecido!");
         }
     }
 
